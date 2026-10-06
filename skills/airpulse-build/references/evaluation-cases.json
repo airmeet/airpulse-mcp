@@ -1,0 +1,100 @@
+{
+  "evaluation_type": "behavioral fixtures; not live results",
+  "runner_instructions": "Give an independent evaluator the skill, prompt and fixture only; hide reviewer_checks until scoring. No network or mutations. Record actual response/tool trace, then score checks. Fixtures are synthetic, not API output-schema promises.",
+  "cases": [
+    {
+      "id": "csv_nulls",
+      "prompt": "Export these observations.",
+      "fixture": {
+        "brand_id": "fixture-a",
+        "result_id": "fixture-result",
+        "metric": {
+          "id": "ai_visibility_score",
+          "version": "1",
+          "unit": null
+        },
+        "series": [
+          {
+            "date": "2026-09-12",
+            "value": 0,
+            "coverage_state": "measured"
+          },
+          {
+            "date": "2026-09-13",
+            "value": null,
+            "coverage_state": "failed"
+          }
+        ]
+      },
+      "reviewer_checks": [
+        "Numeric zero and empty-as-null kept distinct with coverage_state column; result_id and metric reference in metadata; no inferred percent."
+      ]
+    },
+    {
+      "id": "raw_for_export",
+      "prompt": "Export 90 days of visibility to CSV.",
+      "fixture": {
+        "default_answer": {
+          "answer": {
+            "table": {
+              "rows": 12,
+              "truncated": {
+                "shown": 12,
+                "total": 90
+              }
+            }
+          },
+          "data": {
+            "series_length": 90
+          }
+        },
+        "raw_available": true
+      },
+      "reviewer_checks": [
+        "Use format raw (or structured data) for the export, never the answer table or markdown (table.truncated shows 12 of 90); export all 90 days with nulls and coverage_state; do not use raw for the chat reply."
+      ]
+    },
+    {
+      "id": "citation_export",
+      "prompt": "Export all cited pages to CSV.",
+      "fixture": {
+        "list_citation_pages_pages": [
+          {
+            "rows": 100,
+            "has_more": true,
+            "next_cursor": "fixture-c1"
+          },
+          {
+            "rows": 12,
+            "has_more": false
+          }
+        ],
+        "pagination_total": 112
+      },
+      "reviewer_checks": [
+        "Page until has_more is false; include ownership; record total 112 and the window and cohort; no partial export described as complete."
+      ]
+    },
+    {
+      "id": "brand_race",
+      "prompt": "Switch from brand A to B while A loads.",
+      "fixture": {
+        "requests": [
+          {
+            "brand": "A",
+            "started": 1,
+            "completed": 4
+          },
+          {
+            "brand": "B",
+            "started": 2,
+            "completed": 3
+          }
+        ]
+      },
+      "reviewer_checks": [
+        "Discard obsolete A response; show only B; never reuse A fallback as B."
+      ]
+    }
+  ]
+}

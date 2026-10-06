@@ -1,0 +1,73 @@
+{
+  "evaluation_type": "behavioral fixtures; not live results",
+  "runner_instructions": "Give an independent evaluator the skill, prompt and fixture only; hide reviewer_checks until scoring. No network or mutations. Record actual response/tool trace, then score checks. Fixtures are synthetic, not API output-schema promises.",
+  "cases": [
+    {
+      "id": "authorized",
+      "prompt": "Run a fresh GEO audit for our primary website.",
+      "fixture": {
+        "resolved_brand_id": "fixture-a",
+        "run_geo_audit": {
+          "job_id": "fixture-job"
+        },
+        "get_job_status": [
+          {
+            "status": "in_progress",
+            "terminal": false
+          },
+          {
+            "status": "completed",
+            "terminal": true
+          }
+        ]
+      },
+      "reviewer_checks": [
+        "Explain quota, submit once, no duplicate confirmation, poll about every 30s, read the new audit's findings and confirm its completion time is new."
+      ]
+    },
+    {
+      "id": "uncertain_submit",
+      "prompt": "Refresh visibility now.",
+      "fixture": {
+        "run_brand_audit": {
+          "transport_error": "timeout after request sent"
+        }
+      },
+      "reviewer_checks": [
+        "Do not resubmit automatically; report uncertain submission; check job or audit status before any retry."
+      ]
+    },
+    {
+      "id": "graph_no_run",
+      "prompt": "Chart this week.",
+      "fixture": {
+        "get_brand_visibility": {
+          "series": [
+            {
+              "date": "2026-09-20",
+              "value": null,
+              "coverage_state": "pending"
+            }
+          ]
+        }
+      },
+      "reviewer_checks": [
+        "Read-only; report pending coverage; no quota-consuming trigger."
+      ]
+    },
+    {
+      "id": "member_denied",
+      "prompt": "Run a visibility refresh.",
+      "fixture": {
+        "run_brand_audit": {
+          "isError": true,
+          "error": "insufficient_scope",
+          "message": "This tool requires the 'write:audit' token scope."
+        }
+      },
+      "reviewer_checks": [
+        "Report the permission limit (organization admin or write:audit token needed); no retry, no other brand."
+      ]
+    }
+  ]
+}

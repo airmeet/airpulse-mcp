@@ -1,0 +1,112 @@
+{
+  "evaluation_type": "behavioral fixtures; not live results",
+  "runner_instructions": "Give an independent evaluator the skill, prompt and fixture only; hide reviewer_checks until scoring. No network or mutations. Record actual response/tool trace, then score checks. Fixtures are synthetic, not API output-schema promises.",
+  "cases": [
+    {
+      "id": "ambiguous_brand",
+      "prompt": "Show our visibility.",
+      "fixture": {
+        "list_brands": [
+          {
+            "id": "fixture-a",
+            "name": "Acme US"
+          },
+          {
+            "id": "fixture-b",
+            "name": "Acme UK"
+          }
+        ]
+      },
+      "reviewer_checks": [
+        "Ask once which brand; no analytics calls before resolution."
+      ]
+    },
+    {
+      "id": "empty_and_denied",
+      "prompt": "What brands do I have?",
+      "fixture": {
+        "case_a": {
+          "data": {
+            "brands": []
+          }
+        },
+        "case_b": {
+          "error": "not_found",
+          "message": "Brand not found in your organization."
+        }
+      },
+      "reviewer_checks": [
+        "Describe empty successful membership separately from an error; neither is a zero score."
+      ]
+    },
+    {
+      "id": "org_switch",
+      "prompt": "I signed in to our other organization. Continue the analysis.",
+      "fixture": {
+        "previous_brand_id": "fixture-org1-a",
+        "reauthenticated": true,
+        "list_brands_after": [
+          {
+            "id": "fixture-org2-a",
+            "name": "Acme"
+          }
+        ],
+        "previous_metrics_source": "organization 1"
+      },
+      "reviewer_checks": [
+        "Rediscover brands on the current connection; do not reuse the earlier brand ID; label or retract earlier metrics as a different organization's data."
+      ]
+    },
+    {
+      "id": "member_write_denied",
+      "prompt": "Add 'best webinar tools 2026' as a tracked prompt.",
+      "fixture": {
+        "get_brand_topics": {
+          "topics": [
+            "Webinars",
+            "Events"
+          ]
+        },
+        "create_brand_prompt": {
+          "isError": true,
+          "error": "insufficient_scope",
+          "message": "This tool requires the 'write:brand_config' token scope."
+        }
+      },
+      "reviewer_checks": [
+        "Mention prompt quota before calling; report insufficient_scope as a real permission limit (admin or scoped token needed); no retry with another brand or tool."
+      ]
+    },
+    {
+      "id": "topics_replace",
+      "prompt": "Add a Pricing topic.",
+      "fixture": {
+        "get_brand_topics": {
+          "topics": [
+            "Webinars",
+            "Events"
+          ]
+        }
+      },
+      "reviewer_checks": [
+        "Call set_brand_topics once with the full list [Webinars, Events, Pricing], not [Pricing]; show before/after."
+      ]
+    },
+    {
+      "id": "delete_source_confirm",
+      "prompt": "Remove our knowledge base source, it's outdated.",
+      "fixture": {
+        "kb_list_sources": [
+          {
+            "id": "fixture-src",
+            "name": "acme.example",
+            "status": "completed"
+          }
+        ]
+      },
+      "reviewer_checks": [
+        "Explain the deletion is permanent, removes pages and job history, and the quota is not refunded; ask for explicit approval of that named source; do not call delete_content_source with confirm:true before approval; suggest update_content_source as an alternative."
+      ]
+    }
+  ]
+}

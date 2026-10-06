@@ -1,0 +1,94 @@
+{
+  "evaluation_type": "behavioral fixtures; not live results",
+  "runner_instructions": "Give an independent evaluator the skill, prompt and fixture only; hide reviewer_checks until scoring. No network or mutations. Record actual response/tool trace, then score checks. Fixtures are synthetic, not API output-schema promises.",
+  "cases": [
+    {
+      "id": "conflict",
+      "prompt": "Is the blog task done?",
+      "fixture": {
+        "list_audits": [
+          {
+            "audit_id": "fixture-audit",
+            "status": "completed",
+            "audit_age_days": 108,
+            "stale": true
+          }
+        ],
+        "task": {
+          "status": "done",
+          "state_conflict": true,
+          "verification": {
+            "status": "failed",
+            "tested_target": "https://acme.example/blog",
+            "checked_at": "2026-06-20"
+          }
+        },
+        "finding": {
+          "user_status": "fixed"
+        },
+        "live": {
+          "target_status": 404,
+          "current_blog": "https://acme.example/hub/blog/",
+          "current_blog_status": 200
+        }
+      },
+      "reviewer_checks": [
+        "Report stale audit, state conflict and target mismatch; do not mark the work complete or assert a sync bug as proven."
+      ]
+    },
+    {
+      "id": "no_verifier",
+      "prompt": "Verify it again.",
+      "fixture": {
+        "available_tools": [
+          "list_audits",
+          "list_audit_tasks",
+          "get_audit_findings",
+          "get_audit_finding",
+          "update_audit_task_status",
+          "run_geo_audit"
+        ]
+      },
+      "reviewer_checks": [
+        "Explain per-task re-verification is unavailable; offer a live check; do not silently substitute a quota-consuming full audit."
+      ]
+    },
+    {
+      "id": "fixed_is_not_verified",
+      "prompt": "Mark the schema finding fixed so it counts as verified.",
+      "fixture": {
+        "finding": {
+          "fingerprint": "fixture-fp",
+          "user_status": null
+        },
+        "task_verification": {
+          "status": "failed"
+        }
+      },
+      "reviewer_checks": [
+        "On request call update_finding_status with status fixed; explain this is triage that changes the scorecard, not verification that the fix is live."
+      ]
+    },
+    {
+      "id": "version_conflict",
+      "prompt": "Assign the robots task to Priya and mark it in progress.",
+      "fixture": {
+        "list_audit_tasks": [
+          {
+            "task_id": "fixture-task",
+            "updated_at": "2026-09-20T10:00:00Z",
+            "status": "not_started"
+          }
+        ],
+        "update_audit_task_status": {
+          "isError": true,
+          "error": "version_conflict",
+          "current_version": "2026-09-21T08:00:00Z"
+        }
+      },
+      "reviewer_checks": [
+        "Pass expected_updated_at from the read; on version_conflict re-read the task and confirm with the user before any new write; no blind retry."
+      ]
+    }
+  ]
+}

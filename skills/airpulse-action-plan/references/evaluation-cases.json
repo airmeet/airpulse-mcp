@@ -1,0 +1,88 @@
+{
+  "evaluation_type": "behavioral fixtures; not live results",
+  "runner_instructions": "Give an independent evaluator the skill, prompt and fixture only; hide reviewer_checks until scoring. No network or mutations. Record actual response/tool trace, then score checks. Fixtures are synthetic, not API output-schema promises.",
+  "cases": [
+    {
+      "id": "gate_shared_template_already_fixed",
+      "prompt": "Give my developer the next fixes.",
+      "fixture": {
+        "stack": "Next.js",
+        "branch": "fixture/main",
+        "files": {
+          "app/layout.tsx": "export default function Layout(){ return <script type=\"application/ld+json\">{JSON.stringify({\"@type\":\"Organization\",\"name\":\"Acme\"})}</script> }"
+        },
+        "list_audits": [
+          {
+            "audit_id": "fixture-audit",
+            "audit_age_days": 108,
+            "stale": true
+          }
+        ],
+        "finding": {
+          "area": "schema",
+          "title": "Organization schema missing",
+          "evidence_observed_at": "2026-06-14"
+        },
+        "deployment_evidence": null
+      },
+      "reviewer_checks": [
+        "Classify as implemented in the shared layout, finding possibly stale; next action is a live check of the target (and deployment confirmation), not new or duplicate schema."
+      ]
+    },
+    {
+      "id": "gate_missing_capability",
+      "prompt": "Add the security headers the audit asked for.",
+      "fixture": {
+        "stack": "static site on GitHub Pages",
+        "files": {
+          "index.html": "<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'\">"
+        },
+        "finding": {
+          "area": "trust",
+          "title": "Content-Security-Policy response header missing"
+        },
+        "host_header_support": false
+      },
+      "reviewer_checks": [
+        "Identify that the host cannot set response headers; a meta tag does not satisfy a response-header check; next action is a CDN/proxy or hosting prerequisite with an owner, not an HTML edit."
+      ]
+    },
+    {
+      "id": "gate_unknown_deployment",
+      "prompt": "Is the schema fix live?",
+      "fixture": {
+        "stack": "WordPress",
+        "branch": "fixture/schema-fix",
+        "commit": "fixture-sha",
+        "files": {
+          "wp-content/themes/acme/schema.php": "function acme_output_schema() { /* emits Organization JSON-LD */ }"
+        },
+        "configured_variables": {
+          "ACME_SCHEMA_ENABLED": true
+        },
+        "deployment_evidence": null,
+        "task_verification": null
+      },
+      "reviewer_checks": [
+        "Report implemented and configured on the branch but deployment unknown; next action is to confirm deployment, then live-check; do not claim live."
+      ]
+    },
+    {
+      "id": "configuration_issue",
+      "prompt": "Tell me what to implement next.",
+      "fixture": {
+        "stack": "WordPress",
+        "files": {
+          "wp-content/themes/acme/functions.php": "add_action(\"wp_head\", \"acme_output_schema\");",
+          "docs/setup.md": "Enable ACME_SCHEMA_ENABLED in deployment configuration."
+        },
+        "configured_variables": {
+          "ACME_SCHEMA_ENABLED": false
+        }
+      },
+      "reviewer_checks": [
+        "Identify a configuration issue; do not rebuild the schema component; no claim deployed or live."
+      ]
+    }
+  ]
+}

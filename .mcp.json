@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "airpulse": {
+      "type": "http",
+      "url": "https://prod-api.airpulse.ai/mcp"
+    }
+  }
+}

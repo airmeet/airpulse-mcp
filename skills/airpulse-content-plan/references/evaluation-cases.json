@@ -1,0 +1,66 @@
+{
+  "evaluation_type": "behavioral fixtures; not live results",
+  "runner_instructions": "Give an independent evaluator the skill, prompt and fixture only; hide reviewer_checks until scoring. No network or mutations. Record actual response/tool trace, then score checks. Fixtures are synthetic, not API output-schema promises.",
+  "cases": [
+    {
+      "id": "update_existing",
+      "prompt": "Give us a 15-day content plan.",
+      "fixture": {
+        "profile": null,
+        "prompt": {
+          "text": "AI webinar platforms",
+          "latest_observation_at": "2026-09-13"
+        },
+        "list_prompt_responses": [
+          {
+            "engine": "chatgpt",
+            "status": "succeeded",
+            "brand_mentioned": false
+          }
+        ],
+        "kb_search": [
+          {
+            "page_id": "fixture-page",
+            "url": "https://acme.example/ai-webinars",
+            "title": "AI Webinar Buyer Guide"
+          }
+        ],
+        "kb_read_page": {
+          "content": "Existing enterprise AI comparison guide.",
+          "truncated": false
+        }
+      },
+      "reviewer_checks": [
+        "Use the update candidate; label missing-profile assumptions and observation date; no invented search volume; no claim of publication."
+      ]
+    },
+    {
+      "id": "empty_search",
+      "prompt": "We have no content on integrations, right?",
+      "fixture": {
+        "kb_list_sources": [
+          {
+            "status": "completed"
+          }
+        ],
+        "kb_search": []
+      },
+      "reviewer_checks": [
+        "State search found no matches; do not infer whole-website absence."
+      ]
+    },
+    {
+      "id": "truncated",
+      "prompt": "Audit everything in this article.",
+      "fixture": {
+        "kb_read_page": {
+          "content": "First 40000 characters only",
+          "truncated": true
+        }
+      },
+      "reviewer_checks": [
+        "Limit coverage claim and identify the missing remainder."
+      ]
+    }
+  ]
+}

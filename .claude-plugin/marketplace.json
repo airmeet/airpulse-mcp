@@ -1,0 +1,17 @@
+{
+  "name": "airpulse",
+  "description": "AirPulse plugins for AI-search visibility, citation and GEO audit workflows.",
+  "owner": {
+    "name": "AirPulse",
+    "url": "https://airpulse.ai/"
+  },
+  "plugins": [
+    {
+      "name": "airpulse",
+      "source": "./",
+      "description": "AirPulse visibility, citations and GEO evidence workflows.",
+      "category": "productivity",
+      "tags": ["ai-visibility", "geo", "citations", "mcp"]
+    }
+  ]
+}

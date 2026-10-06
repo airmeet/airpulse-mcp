@@ -1,0 +1,14 @@
+---
+name: airpulse-action-plan
+description: Inspect an authorized repository alongside AirPulse GEO findings and tasks to produce a file-specific implementation plan matched to the current stack.
+---
+
+Establish repository and branch, site and brand, and requested outcome from existing context. Read applicable AGENTS.md or CLAUDE.md and inspect git status without modifying user work. A plan request is read-only; an implementation request authorizes relevant reversible changes and checks within the established scope. Check whether tests call live services before running them.
+
+Get audit evidence through the GEO verification workflow: `list_audits` for the latest completed audit with its `audit_age_days` and `stale` flag, `get_audit_findings` and `get_audit_finding({fingerprint})` for the full suggested fix, and `list_audit_tasks` for status, `tested_target` and `verification`. Findings describe the site as observed then; say when an audit is stale. Existing wiki claims or recommendations cannot substitute for the inspected implementation.
+
+Trace relevant routes, shared templates, schema generation, CMS, headers, configuration and tests. Read configuration names and setup docs without exposing values. For each requirement classify: already implemented; configuration issue; missing implementation; stale finding; or unavailable evidence. Keep implemented in code, configured, deployed and verified live separate. Fix a shared template once instead of repeating page-level work. A capability the stack lacks (for example response headers on a static host) is a prerequisite with its own owner, not a page edit or an HTML meta-tag substitute. A capability AirPulse does not expose (for example triggering one task's re-verification) belongs to the product integration backlog, not the customer's website backlog; plan around it with a live check and the next audit.
+
+Return a short state summary and priority table with user benefit, actual file and symbol or line, evidence, concrete change, prerequisites, owner role, effort range with assumptions, and verification command or acceptance check. Include branch, commit and environment evidence where available, an ordered sequence, the first actionable step and blockers. Unknown deployment status stays unknown. Without repository access give a labelled data-only plan rather than invent file paths. Updating task status or triaging findings in AirPulse is a separate, explicitly requested step in the GEO verification skill.
+
+**QA gate.** Run the three [evaluation fixtures](references/evaluation-cases.json) — an already-fixed shared template, a missing capability, and an unknown deployment — before shipping changes to this skill. Each fixture must change the recommended next action. Do not rebuild an existing component to resolve missing configuration, do not propose duplicate schema for an already-fixed shared template, and do not report unknown deployment as live.

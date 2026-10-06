@@ -1,0 +1,26 @@
+{
+  "name": "airpulse",
+  "version": "0.2.0",
+  "description": "Investigate AI visibility, citations and GEO audit evidence with AirPulse.",
+  "author": {
+    "name": "AirPulse"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AirPulse",
+    "shortDescription": "AI visibility, citations and grounded GEO actions.",
+    "longDescription": "Read AirPulse data over the AirPulse remote MCP server, inspect the underlying AI answers, plan content and verify GEO findings with portable skills. Answers arrive server-rendered with chart-ready data.",
+    "developerName": "AirPulse",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive"
+    ],
+    "websiteURL": "https://airpulse.ai/",
+    "defaultPrompt": [
+      "Show my visibility with gaps and freshness.",
+      "Why are competitors being cited?",
+      "Check whether my GEO fixes are verified."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}
