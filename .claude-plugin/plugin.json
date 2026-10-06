@@ -8,7 +8,7 @@
   },
   "homepage": "https://airpulse.ai/",
   "repository": "https://github.com/airmeet/airpulse-mcp",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": [
     "airpulse",
     "ai-visibility",

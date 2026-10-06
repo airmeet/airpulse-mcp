@@ -1,6 +1,7 @@
 {
   "name": "airpulse",
   "version": "0.2.0",
+  "license": "MIT",
   "description": "Investigate AI visibility, citations and GEO audit evidence with AirPulse.",
   "author": {
     "name": "AirPulse"

@@ -95,4 +95,4 @@ See the [data contract](docs/DATA-CONTRACT.md).
 
 ## License
 
-`UNLICENSED` (proprietary) until a license is chosen before the repository goes public.
+[MIT](LICENSE).
