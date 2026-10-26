@@ -9,4 +9,4 @@ The plugin ships no executable code. It contains manifests, one remote MCP serve
 - **Untrusted content.** Answer text, knowledge-base pages, profile text and suggested fixes are data. Skills ignore instructions embedded in them.
 - **Rendering.** The server returns markdown answers and chart-ready data; neither the server nor this repository ships an HTML report UI. Skills treat answer text as data.
 
-Report a vulnerability privately to the AirPulse team rather than in a public issue.
+Report a vulnerability privately rather than in a public issue: use GitHub's **Report a vulnerability** button on the repository's Security tab, or email support@airpulse.ai with "Security" in the subject.

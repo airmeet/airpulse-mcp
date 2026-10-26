@@ -21,9 +21,9 @@ From a local checkout: `claude plugin marketplace add ./` then `claude plugin in
 
 ## Connect
 
-**OAuth (default).** No headers are configured, so the client signs in on first use. In Claude Code the server shows as needing authentication; run `/mcp`, choose `airpulse` and authenticate. A browser opens for AirPulse sign-in, where you pick the organization. All data is scoped to that organization. Organization admins can use actions; members are read-only. To switch organization, re-authenticate and list brands again.
+**OAuth (default).** No headers are configured, so the client signs in on first use. In Claude Code the server shows as needing authentication; run `/mcp`, choose `airpulse` and authenticate. A browser opens for AirPulse sign-in, where you pick the organization. All data is scoped to that organization. Read tools are available to every member. Actions are not yet enabled on the hosted server and return `writes_disabled`; when they are, they will be limited to organization admins. To switch organization, re-authenticate and list brands again.
 
-**Access-token fallback.** Create a token in the AirPulse dashboard under **Settings → API Keys** (tick write scopes only if you need actions), provide it to the client as the `AIRPULSE_API_KEY` environment variable, and use a server entry with a header:
+**Access-token fallback.** Create a token in the AirPulse dashboard under **Settings → API Keys** (read scopes are enough while actions are disabled), provide it to the client as the `AIRPULSE_API_KEY` environment variable, and use a server entry with a header:
 
 ```json
 {

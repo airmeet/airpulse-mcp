@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 — unreleased
+## 0.2.0 — 2026-10-26
 
 - The plugin now connects straight to the AirPulse remote MCP server (`https://prod-api.airpulse.ai/mcp`) with OAuth sign-in; the access-token header is documented as a fallback.
 - Removed the local Node package, its npm distribution and the bundled report UI. The server now provides instructions, workflow prompts and server-rendered answers.

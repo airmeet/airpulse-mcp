@@ -13,12 +13,12 @@ Columns:
 
 | Client | Version | Endpoint | Date | Connect | Org picker | Tools with titles | Answer renders | Drill-down | Member write denied | Admin write allowed | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Claude Code | 2.1.284 | dev | 2026-09-30 | ⚠️ | | | | | | | Plugin installs from a local marketplace; `plugin validate --strict` passes; server shows "Needs authentication". Browser sign-in not yet completed. |
+| Claude Code | | | | | | | | | | | |
 | Claude Desktop | | | | | | | | | | | |
 | Claude web | | | | | | | | | | | |
 | ChatGPT | | | | | | | | | | | |
 | Cursor | | | | | | | | | | | |
 | VS Code | | | | | | | | | | | |
-| Codex CLI | 0.141.0 | dev | 2026-09-30 | ⚠️ | | | | | | | Plugin installs and the HTTP server entry is read. `codex mcp list` reports auth "Unsupported"; dev publishes only `/.well-known/oauth-protected-resource/mcp`. Access-token fallback: `--bearer-token-env-var AIRPULSE_API_KEY`. |
+| Codex CLI | | | | | | | | | | | |
 
 Skills load only through a plugin install. A bare MCP connection gets tools, server instructions, prompts and server-rendered answers.
