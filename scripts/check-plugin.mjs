@@ -23,6 +23,19 @@ if (claude && codex) {
   if (claude.version !== codex.version) fail(`Manifest versions differ: ${claude.version} vs ${codex.version}.`);
   if (!readFileSync('CHANGELOG.md', 'utf8').includes(`## ${claude.version}`)) fail(`CHANGELOG.md has no ${claude.version} entry.`);
 }
+const cursor = json['.cursor-plugin/plugin.json'];
+const registry = json['server.json'];
+if (claude && cursor) {
+  if (cursor.name !== claude.name) fail('Cursor and Claude manifests have different names.');
+  if (cursor.version !== claude.version) fail(`Cursor manifest version ${cursor.version} differs from ${claude.version}.`);
+}
+if (claude && registry) {
+  if (registry.version !== claude.version) fail(`server.json version ${registry.version} differs from ${claude.version}.`);
+  if (registry.name !== 'ai.airpulse/airpulse') fail('server.json name must be ai.airpulse/airpulse (DNS-verified namespace).');
+  if ((registry.description ?? '').length > 100) fail('server.json description must be at most 100 characters.');
+  const remote = registry.remotes?.[0];
+  if (!remote || remote.type !== 'streamable-http' || remote.url !== 'https://prod-api.airpulse.ai/mcp') fail('server.json must list the prod streamable-http remote.');
+}
 if (market && claude && !market.plugins?.some((p) => p.name === claude.name)) fail('marketplace.json does not list the plugin.');
 const server = mcp?.mcpServers?.airpulse;
 if (!server || server.type !== 'http' || server.url !== 'https://prod-api.airpulse.ai/mcp') fail('.mcp.json must be the prod remote HTTP entry.');

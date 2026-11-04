@@ -1,6 +1,6 @@
 # AirPulse plugin
 
-Seven skills plus a connection to the AirPulse remote MCP server, packaged as a Claude Code plugin (with a Codex manifest). Ask your agent about AI-search visibility, competitor share, citations, the actual answers engines gave, and GEO site-audit findings — with scope, coverage and evidence kept honest.
+Seven skills plus a connection to the AirPulse remote MCP server, packaged as a Claude Code plugin (with Codex and Cursor manifests). Ask your agent about AI-search visibility, competitor share, citations, the actual answers engines gave, and GEO site-audit findings — with scope, coverage and evidence kept honest.
 
 The plugin is thin: a manifest, one remote server entry (`https://prod-api.airpulse.ai/mcp`) and the skills. The server does the rest: tools, OAuth sign-in, server instructions, workflow prompts and server-rendered answers.
 
@@ -17,7 +17,11 @@ From a local checkout: `claude plugin marketplace add ./` then `claude plugin in
 
 **Codex:** the `.codex-plugin/plugin.json` manifest uses the same `.mcp.json` and skills. To connect the server alone: `codex mcp add airpulse --url https://prod-api.airpulse.ai/mcp`. See [compatibility](docs/COMPATIBILITY.md) for OAuth status.
 
-**Other MCP clients** (Claude web and Desktop connectors, ChatGPT, Cursor, VS Code): add `https://prod-api.airpulse.ai/mcp` as a remote MCP server. A bare connection gets the tools, server instructions and prompts, but not these skills.
+**Cursor:** the `.cursor-plugin/plugin.json` manifest uses the same `.mcp.json` and skills.
+
+**MCP Registry:** `server.json` describes the hosted server as `ai.airpulse/airpulse` for the official MCP Registry.
+
+**Other MCP clients** (Claude web and Desktop connectors, ChatGPT, VS Code): add `https://prod-api.airpulse.ai/mcp` as a remote MCP server. A bare connection gets the tools, server instructions and prompts, but not these skills.
 
 ## Connect
 

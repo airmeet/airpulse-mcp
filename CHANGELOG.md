@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added `server.json` for the official MCP Registry (`ai.airpulse/airpulse`, streamable HTTP remote).
+- Added a Cursor plugin manifest (`.cursor-plugin/plugin.json`) that reuses `.mcp.json` and the skills.
+- CI checks that the new manifests match the Claude manifest version and the prod endpoint.
+
 ## 0.2.0 — 2026-10-26
 
 - The plugin now connects straight to the AirPulse remote MCP server (`https://prod-api.airpulse.ai/mcp`) with OAuth sign-in; the access-token header is documented as a fallback.
