@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.airpulse/airpulse",
+  "title": "AirPulse",
+  "description": "AI-search visibility, citations and GEO audit evidence for your brand.",
+  "version": "0.2.0",
+  "websiteUrl": "https://airpulse.ai/",
+  "icons": [
+    {
+      "src": "https://airpulse.ai/apple-icon.png",
+      "mimeType": "image/png",
+      "sizes": ["180x180"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://prod-api.airpulse.ai/mcp"
+    }
+  ]
+}
